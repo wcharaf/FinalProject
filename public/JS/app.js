@@ -1,82 +1,122 @@
+function validateInputs (input, min, max) {
+	$(input).parent().children('.error').css('display','none');
+	if (input.val() > max) {
+		$(input).parent().children('.error').css('display','inline-block');
+		input.val(max);
+	} else if (input.val() < min) {
+		$(input).parent().children('.error').css('display','inline-block');
+		input.val(min);
+	}
+}
 
-// BEGINNING INSTAGRAM JAVASCRIPT CODE
-window.Instagram = {
-    /**
-     * Store application settings
-     */
+//Load the content for the selected tab only
+function loadTabContent () {
+	var $selectedTab = $('.tabs-menu li.current a');
 
-  // The CONFIGURATION OBJECT ****
-    config: {},
+	if ($selectedTab.length > 0) {
+		if ($selectedTab.attr("href").indexOf('twitter') > 0) {
+			loadTweets();
+			$('#twitter-tab').css('display','block');
+	    } else if ($selectedTab.attr("href").indexOf('instagram') > 0) {
+			loadInstagram();
+			$('#instagram-tab').css('display','block');
+	    } else if ($selectedTab.attr("href").indexOf('youtube') > 0) {
+	    	loadYoutube();
+	    	$('#youtube-tab').css('display','block');
+	    }
+	}
+}
 
-      BASE_URL: 'https://api.instagram.com/v1',
+//Save the user preference on LocalStorage
+function saveUserPreference (value) {
+	localStorage.setItem("startContent", value);
+}
 
-      init: function( opt ) {
-          opt = opt || {};
+//Load user preference first, force the prefered content to show on load
+function userPreference () {
+	var preference = localStorage.getItem("startContent");
 
-          this.config.client_id = "fa639a7c4cc347bf8827cc5d53145ea0";
-        },
+	switch (preference) {
+		case 'twitter':
+			$('.tabs-menu a[href="#twitter-tab"]').click();
+			break;
+		case 'instagram':
+			$('.tabs-menu a[href="#instagram-tab"]').click();
+			break;
+		case 'youtube':
+			$('.tabs-menu a[href="#youtube-tab"]').click();
+			break;
+		default:
+			$('.tabs-menu a[href="#twitter-tab"]').click();
+			break;
+	}
+}
 
-      /**
-       * Get a list of popular media in this location
-       */
-      popular: function( callback ) {
-          var endpoint = this.BASE_URL + 'locations/{location-id}/media/popular?client_id=' + this.config.client_id;
-          this.getJSON( endpoint, callback );
-      },
+//Check or uncheck the default tab checkbox based on user preference
+function markPreferenceBox (tab) {
+	var preference = localStorage.getItem("startContent");
 
+	switch (preference) {
+		case 'twitter':
+			if (tab === '#twitter-tab') {
+				$('input[type="checkbox"][name="twitter"]').prop('checked', true);
+			} else {
+				$('input[type="checkbox"][name="twitter"]').prop('checked', false);
+			}
+			break;
+		case 'instagram':
+			if (tab === '#instagram-tab') {
+				$('input[type="checkbox"][name="instagram"]').prop('checked', true);
+			} else {
+				$('input[type="checkbox"][name="instagram"]').prop('checked', false);
+			}
+			break;
+		case 'youtube':
+			if (tab === '#youtube-tab') {
+				$('input[type="checkbox"][name="youtube"]').prop('checked', true);
+			} else {
+				$('input[type="checkbox"][name="youtube"]').prop('checked', false);
+			}
+			break;
+		default:
+			if (tab === '#twitter-tab') {
+				$('input[type="checkbox"][name="twitter"]').prop('checked', true);
+			} else {
+				$('input[type="checkbox"][name="twitter"]').prop('checked', false);
+			}
+			break;
+	}
+}
 
-      /**
-       * Get a list of recently tagged media in this location
-       */
-      tagsByName: function( name, callback ) {
-          var endpoint = this.BASE_URL + '/tags/' + name + '/media/recent?client_id=' + this.config.client_id;
-          this.getJSON( endpoint, callback );
-      },
-
-        getJSON: function( url, callback ) {
-            $.ajax({
-                type: 'GET',
-                url: url,
-                dataType: 'jsonp',
-                success: function( response ) {
-                    if ( typeof callback === 'function' ) callback( response );
-                }
-            });
-        }
-    };
-
-// INSTAGRAM INITIAL
-
-Instagram.init({
-    client_id: 'fa639a7c4cc347bf8827cc5d53145ea0'
+$(document).ajaxStart(function(){
+	$(".loading-overlay").css("display", "block");
+	$('.tab').addClass('loading-overlay');
+	$('.tab').css('pointer-events', 'none');
+	$('.tab-content').css('opacity', 0.4);
 });
 
-
-$( document ).ready(function() {
-
-    Instagram.popular(function( response ) {
-        var $instagram = $( '#instagram' );
-        for ( var i = 0; i < response.data.length; i++ ) {
-            imageUrl = response.data[i].images.low_resolution.url;
-            $instagram.append( '<img src="' + imageUrl + '" />' );
-        }
-    });
-
-    $( '#form' ).on('submit', function( e ) {
-        e.preventDefault();
-
-        var tagName = $( '#search' ).val();
-        Instagram.tagsByName(tagName, function( response ) {
-            var $instagram = $( '#instagram' );
-                $instagram.html('');
-
-            for ( var i = 0; i < response.data.length; i++ ) {
-                imageUrl = response.data[i].images.low_resolution.url;
-                $instagram.append( '<img src="' + imageUrl + '" />' );
-            }
-        });
-
-    });
-
+$(document).ajaxComplete(function(){
+	$('.tab').removeClass('loading-overlay');
+	$(".loading-overlay").css("display", "none");
+	$('.tab').css('pointer-events', 'auto');
+	$('.tab-content').css('opacity', 1);
 });
-// END OF INSTAGRAM JAVASCRIPT CODE
+
+$(document).ready(function () {
+	$('.arrow-top').click(function () {
+		$('html, body').stop().animate({
+	       scrollTop: $('header').offset().top
+	    }, 1000);
+	});
+
+	$(".tabs-menu a").click(function (e) {
+	    e.preventDefault();
+	    $(this).parent().addClass("current");
+	    $(this).parent().siblings().removeClass("current");
+	    var tab = $(this).attr("href");
+	    $(".tab-content").not(tab).css("display", "none");
+		$(tab).fadeIn();
+		markPreferenceBox(tab);
+	    loadTabContent();
+	});
+});

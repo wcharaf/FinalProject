@@ -1,38 +1,149 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>GEOBUZZ/ATMOSCENE APPLICATION BY JESSICA L., WISSAM C, and KEVIN B.</title>
-  <!--Adding Styles Sheet and Bootstrap  -->
-  <link rel="stylesheet" href="css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
-  <link rel="stylesheet" href="css/styles.css" media="screen" title="no title" charset="utf-8">
+<html>
+	<head>
+    	<meta charset="utf-8">
+      <title>GEOBUZZ/ATMOSCENE APPLICATION BY JESSICA L., WISSAM C, and KEVIN B.</title>
+      <!--Adding Styles Sheet and Bootstrap  -->
+      <link rel="stylesheet" href="css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+      <link rel="stylesheet" href="css/styles.css" media="screen" title="no title" charset="utf-8">
+	</head>
 
-</head>
-<!-- ******************************************************** -->
+<!-- BEGINNING OF BODY -->
+	<body>
+		<header>
+      <div class="container" class="jumbotron">
+          <h1  id="ourtitle">GEOBUZZ or ATMOSCENE</h1>
+          <p>Click on any location in the map, or move the marker around, in order to get the latest social media content in that area.</p>
+      </div>
+		</header>
 
-<body>
 
-  <!-- PAGE HEADER -->
-  <div class="container">
-      <h1 class="jumbotron" id="ourtitle">
-      GEOBUZZ or ATMOSCENE
-      </h1>
-  </div>
-<!-- INPUT FORM -->
-  <form id="form">
-          <input type="text" id="search" />
-  </form>
+	<!-- MAP CANVAS -->
 
-  <div id="instagram">
-  </div>
+		<div id="map-canvas"></div>
 
-  <footer>
-  Created by: Jessica Lynn, Wissam Charafeddine, and Kevin Baxter 2016
+	<!--  SOCIAL MEDIA TABS-->
+		<div id="tabs-container">
+		    <ul class="tabs-menu">
+		        <li class="current"><a href="#twitter-tab"><img src='css/img/twitterLogo.png' style='height:50px;margin-left: 10px;' /></a></li>
+		        <li><a href="#instagram-tab"><img src='css/img/instagramLogo.png' style='height:50px;margin-left: 10px;'/></a></li>
+		        <li><a href="#youtube-tab"><img src='css/img/youtubeLogo.png' style='height:50px;margin-left: 10px;'/></a></li>
+		      
+		    </ul>
+			<div class="tab">
 
-  </footer>
+		<!-- LOADING OVERLAY -->
+				<div class="loading-overlay">
+		    		<img class="loading-icon" src="css/img/loading_spinner.gif"/>
+		    		<span class="loading-text">Loading...</span>
+				</div>
 
-  <!-- Javascript Files linked including jquery -->
-  <script type="text/javascript" src="js/jquery-1.12.3.min.js"></script>
-  <script type="text/javascript" src="js/app.js"></script>
-</body>
-</html>
+			<!-- BEGINNING OF TWITTER VIEW -->
+		        <div id="twitter-tab" class="tab-content">
+
+			<!--  TWITTER OPTION DIV-->
+		        	<div class="options">
+								<div>
+									<!-- RADIUS OF SEARCH -->
+									<strong>Radius: </strong>
+									<input type="number" name="twitter-radius" value="20" min="1" max="1000"> km
+										<div class="error">*1 to 1000 km</div>
+								</div>
+							<div>
+
+								<!-- TWITTER RESULTS -->
+								<strong>Tweets shown: </strong>
+								<input type="number" name="notweets" value="15" min="1" max="100">
+									<div class="error">*1 to 100 tweets</div>
+							</div>
+
+							<!--  TWITTER CHANGING OPTIONS-->
+							<button type="button" name="twitter_apply_changes">Apply changes</button>
+							<div class="markAsDefault">
+								<div class="checkboxArea">
+									<input type="checkbox" id="twitter" name="twitter" onclick="saveUserPreference('twitter');"/>
+										<label for="twitter"></label>
+								</div>
+								<span>Mark as default</span>
+							</div>
+					</div>
+					<!-- END OF TWITTER OPTIONS -->
+
+					<!-- START OF TWITTER RESULTS -->
+					<div class="tweets-container"></div>
+				</div>
+				<!--END OF TWITTER VIEW  -->
+
+
+				<!-- BEGINNING OF INSTAGRAM VIEW -->
+		        <div id="instagram-tab" class="tab-content">
+		        		<div class="options">
+									<!-- RADIUS OF SEARCH-->
+			        		<div>
+										<strong>Radius: </strong>
+										<input type="number" name="instagram-radius" value="1" min="1" max="5"> km
+											<div class="error">*1 to 5 km</div>
+									</div>
+									<!-- CHANGES TO INSTAGRAM INPUT -->
+									<button type="button" name="instagram_apply_changes">Apply changes</button>
+										<div class="markAsDefault">
+											<div class="checkboxArea">
+												<input type="checkbox" id="instagram" name="instagram" onclick="saveUserPreference('instagram');"/>
+												<label for="instagram"></label>
+											</div>
+										<span>Mark as default</span>
+										</div>
+							</div>
+
+							<!-- INSTAGRAM RESULTS -->
+					<div class="instagram-container"></div>
+				</div>
+				<!--END OF INSTAGRAM VIEW  -->
+
+				<!-- BEGINNING OF YOUTUBE VIEW -->
+				<div id="youtube-tab" class="tab-content">
+							<!--  RADIUS OPION-->
+		        	<div class="options">
+			        	<div>
+									<strong>Radius: </strong>
+									<input type="number" name="youtube-radius" value="1" min="1" max="1000"> km
+								<div class="error">*1 to 1000 km</div>
+						</div>
+						<!-- NUMBER OF VIDEOS TO BE DISPLAYED -->
+						<div>
+							<strong>Videos shown: </strong>
+							<input type="number" name="maxVideos" value="5" min="1" max="50">
+								<div class="error">*1 to 50 videos</div>
+						</div>
+						<!-- CHANGES TO SEARCH OF YOUTUBE VIDEOS -->
+						<button type="button" name="youtube_apply_changes">Apply changes</button>
+							<div class="markAsDefault">
+								<div class="checkboxArea">
+									<input type="checkbox" id="youtube" name="youtube" onclick="saveUserPreference('youtube');"/>
+									<label for="youtube"></label>
+								</div>
+								<span>Mark as default</span>
+						</div>
+					</div>
+					<!-- YOUTUBE RESULTS -->
+					<div class="youtube-container"></div>
+				</div>
+				<!--END OF YOUTUBE SEARCH  -->
+
+			</div>
+		</div>
+    <footer>
+    Created by: Jessica Lynn, Wissam Charafeddine, and Kevin Baxter 2016
+
+    </footer>
+
+    <!-- Javascript Files linked including jquery -->
+    <script type="text/javascript" src="js/jquery-1.12.3.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+    <script type="text/javascript" src="js/mapLocation.js"></script>
+    <script type="text/javascript" src="js/twitter/twitterApp.js"></script>
+    <script type="text/javascript" src="js/instagram/instagramApp.js"></script>
+    <script type="text/javascript" src="js/youtube/youtubeApp.js"></script>
+  </body>
+  </html>
