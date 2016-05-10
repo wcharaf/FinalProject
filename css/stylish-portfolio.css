@@ -94,7 +94,11 @@ hr.small {
 /* About */
 
 .about {
-    padding: 50px 0;
+/*    font-family: 'Architects Daughter', cursive;*/
+    font-family: 'Amatic SC', cursive;
+    color:white;
+    background-color: dodgerblue;
+    padding: 25px 0;
 }
 
 /* Services */
@@ -184,4 +188,42 @@ footer {
     color: white;
     font-size: 30px;
     margin-left: 50px;
+}
+#map-container {
+    font-family: 'Amatic SC', cursive;
+    background-image:url(World%20Map%20Dark.jpg);
+    font-size: 50px;
+    text-align: center;
+}
+.about-title{
+    border: none;
+    margin: 0;
+    font-size: 80px;
+}
+.about-caption {
+    margin-top: 0px;
+    font-size: 30px;
+    margin-bottom: 30px;
+}
+.about-caption-2 {
+    border-style: dotted;
+    border-color: white;
+    padding: 2px;
+    margin-top: 10px;
+    font-size: 10px;
+    display: inline-block;
+    zoom: 4;
+}
+.about-image {
+    border-radius: 6px;
+    border: solid 5px;
+    border-color: white;
+    width: 280px;
+    height: 200px;
+}
+.about-image-caption {
+    font-size: 50px;
+}
+p {
+    margin: 0px;
 }
