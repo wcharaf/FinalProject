@@ -39,7 +39,7 @@
 				</div>
 
 			<!-- BEGINNING OF TWITTER VIEW -->
-		        <div id="twitter-tab" class="tab-content">
+		        <div id="twitter-tab" class="tab-content" ng-app="twitterApp" >
 
 			<!--  TWITTER OPTION DIV-->
 		        	<div class="options">
@@ -55,6 +55,54 @@
 								<strong>Tweets shown: </strong>
 								<input type="number" name="notweets" value="15" min="1" max="100">
 									<div class="error">*1 to 100 tweets</div>
+									<!-- The ng-click() directives are used to handle the click events in order to carry out the tasks. In our case the “Connect Twitter”, “Get My Timeline”, “Sign Out”, and “Load More” buttons use the ng-click() directive to run various tasks in controllers.js. These tasks are: open the Twitter authorization popup window, fetch tweets from the user’s timeline, clear OAuth cache, and load additional tweets. When a user exceeds the Twitter’s rate limit, we show an error message via ng-show="rateLimitError". Note that we have used ngBindHtml to sanitize the content of the tweets.
+
+									Let’s now discuss the search box. We’ve used the ng-model directive to keep the model searchTerm in sync with the input field. When a search term is entered into the text field, it’s automatically synchronized to the model searchTerm via the ng-model directive. As you may already know, the ng-repeat directive is used to repeat HTML elements. filter: searchTerm has been used to filter the elements according to the value present in the model. So, one can just type into the text field and the tweets will automatically refresh based on the search term. In order to display usernames, profile image, and tweets we have used AngularJS expressions by leveraging one-way data binding. Note the expressions {{t.user.name}} and {{t.text}} to get the username and the tweet posted by the user.
+
+									When the “Load more” button is clicked, maxId is passed to the refreshTimeline() function. In our case the maxID is nothing but the highest tweet ID fetched by our app. Doing so, the refreshTimeline() function is able to render the next set of tweets using the data binding defined in the HTML template. Finally, it’s worth noting that the ng-repeat directive is used to loop through the tweets and append them to the previous set of tweets. -->
+											<div class="container" ng-controller="TwitterController">
+												 <h1>AngularJS Instant Tweet Search Application</h1>
+												 <div class="row">
+														 <div class="col-xs-6">
+																 <button ng-click="connectButton()" id="connectButton" type="button" class="btn btn-primary">Connect Twitter</button>
+																 <button ng-click="refreshTimeline()" id="getTimelineButton" type="button" class="btn btn-info" style="display:none;">Get My Timeline</button>
+																 <button ng-click="signOut()" id="signOut" type="button" class="btn btn-link" style="display:none;">Sign Out</button>
+														 </div>
+														 <div class="col-xs-6">
+																 <input type="text" ng-model="searchTerm" class="form-control" id="searchBox" placeholder="Enter search term here" ng-show="connectedTwitter" />
+														 </div>
+												 </div>
+												 <div class="row">
+														 <div class="col-xs-12" id="results">
+																 <div class="row" ng-repeat="t in tweets | filter:searchTerm">
+
+																		 <div class="col-xs-2 col-sm-1">
+																				 <img ng-src="{{t.user.profile_image_url}}" class="img-circle">
+																		 </div>
+																		 <div class="col-xs-10 col-sm-11">
+																				 <small>{{t.user.name}}</small>
+																				 <br> <span ng-bind-html="t.text"></span>
+																		 </div>
+
+																 </div>
+
+																 <div ng-show="rateLimitError">
+																		 Rate limit reached. You are making too many requests.
+																 </div>
+																 <div>
+																		 <br/>
+																		 <input type="button" class="btn btn-info" id="load-more" ng-click="refreshTimeline(tweets[tweets.length-1].id)" ng-show="connectedTwitter" value="Load More" />
+																 </div>
+														 </div>
+												 </div>
+										 </div>
+
+
+
+
+
+
+
 							</div>
 
 							<!--  TWITTER CHANGING OPTIONS-->
@@ -139,13 +187,17 @@
 
     <!-- Javascript Files linked including jquery -->
     <script type="text/javascript" src="js/jquery-1.12.3.min.js"></script>
+		<script type="text/javascript"  src="js/angular.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
     <!-- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script> -->
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgQ1yk9FCN6A-ol9OYr8adGSdcGcrCgto"
   type="text/javascript"></script>
     <script type="text/javascript" src="js/mapLocation.js"></script>
     <script type="text/javascript" src="js/twitter/twitterApp.js"></script>
+		<script type="text/javascript" src="js/twitter/controller.js"></script>
+		<script type="text/javascript" src="js/twitter/services.js"></script>
     <script type="text/javascript" src="js/instagram/instagramApp.js"></script>
     <script type="text/javascript" src="js/youtube/youtubeApp.js"></script>
+		<script type="text/javascript" src="js/oauth.min.js"></script>
   </body>
   </html>
