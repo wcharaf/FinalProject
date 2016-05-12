@@ -83,7 +83,7 @@ hr.small {
     display: table;
     position: relative;
     width: 100%;
-    height: 100%;
+    height: 700px;
     background: url(detroit-skyline.jpg) no-repeat center center scroll;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -195,6 +195,10 @@ footer {
     font-size: 50px;
     text-align: center;
 }
+#about{
+    padding-top: 100px;
+   
+}
 .about-title{
     border: none;
     margin: 0;
@@ -226,4 +230,123 @@ footer {
 }
 p {
     margin: 0px;
+}
+.img-circle{
+    list-style: none; 
+    border:solid 3px;
+    border-color:black;
+    width: 120px;
+}
+.team{
+    
+    text-align: center;
+}
+.navigation{
+    list-style: none;
+    list-style-type: none;
+    background-color: #0066CC;
+    margin: 0px;
+    padding: 0px;
+}
+#nav{
+    width: 100%;
+    margin: 0px;
+    position: fixed;
+    z-index: 2;
+}
+#nav li{
+    display: inline-block;
+}
+.nav-item a{
+    padding-left: 82px;
+    padding-right: 70px;
+    border-left: dotted;
+    border-right: dotted;
+    border: rgba(255,255,255);
+    font-family: 'Droid Serif', serif;  
+    font-size: 35px;
+    color: rgb(255,255,255); 
+/*    margin-left: 80px;*/
+    
+}
+
+.nav-item a:hover{
+    border-right:dotted;
+    border: white;
+    color: black;
+    text-decoration: none;
+}
+.seperation {
+    zoom: 3;
+    color: white;
+    padding: 0px;
+    margin: 0px;
+}
+
+
+
+Map Sty
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  #map {
+    border: inset 10px;
+    border-color: cornflowerblue;
+   margin-left: 220px;
+    margin-right: 220px;
+    margin-bottom: 100px;
+    height: 600px;
+
+  }
+    .controls {
+    margin-top: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 32px;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  #pac-input {
+    border: solid;
+    border-color: darkblue;
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 70px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 700px;
+  }
+
+  #pac-input:focus {
+    border-color: #4d90fe;
+  }
+
+  .pac-container {
+    font-family: Roboto;
+  }
+
+  #type-selector {
+    color: #fff;
+    background-color: #4d90fe;
+    padding: 5px 11px 0px 11px;
+  }
+
+  #type-selector label {
+    font-family: Roboto;
+    font-size: 13px;
+    font-weight: 300;
+  }
+  #target {
+    width: 345px;
+  }
+
+#banner {
+    background-color: 
 }
