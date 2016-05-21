@@ -1,0 +1,15 @@
+{
+  "name": "package",
+  "version": "1.0.0",
+  "description": "geobuzz.co",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wcharaf/FinalProject/tree/master/public/JS"
+  },
+  "author": "Wissam Charafeddine & Jessica Lane & Kevin Baxter",
+  "license": "ISC"
+}

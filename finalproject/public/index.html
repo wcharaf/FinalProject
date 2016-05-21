@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    	<meta charset="utf-8">
+      <title>GEOBUZZ/ATMOSCENE APPLICATION BY JESSICA L., WISSAM C, and KEVIN B.</title>
+      <!--Adding Styles Sheet and Bootstrap  -->
+      <link rel="stylesheet" href="css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+			<!-- <link rel="stylesheet" type="text/css" href="ng-twitter.min.css"> -->
+			<link rel="stylesheet" href="css/styles.css" media="screen" title="no title" charset="utf-8">
+
+	</head>
+
+<!-- BEGINNING OF BODY -->
+	<body ng-app="myApp">
+		<header>
+      <div class="container" class="jumbotron">
+          <h1  id="ourtitle">GEOBUZZ or ATMOSCENE</h1>
+          <p>Click on any location in the map, or move the marker around, in order to get the latest social media content in that area.</p>
+      </div>
+		</header>
+
+
+	<!-- MAP CANVAS -->
+
+		<div ng-controller="mapController" id="map-canvas"></div>
+
+		<!-- USER OPTION DIV-->
+						<div class="options" ng-controller="mapController">
+							<center>
+							<div>
+								<!-- RADIUS OF SEARCH -->
+								<strong>Radius in miles: </strong>
+								<input type="number" ng-model="radius" id="radius" placeholder="5" min="1" max="100">    |
+								<div class="error">*1 to 100 miles</div>
+							</div>
+							<div>
+								<!-- Number of Results Displayed -->
+								<strong> Number of Results Displayed: </strong>
+								<input type="number" ng-model="numofresult" id="numofresult" placeholder="20" min="1" max="100">
+								<div class="error">*1 to 100 statuses</div>
+							</div>
+							<button type="submit" ng-click="myOptions(radius,numofresult)">SUBMIT</button>
+							</center>
+					</div>
+
+
+	<!--  SOCIAL MEDIA TABS-->
+		<div id="tabs-container">
+		    <ul class="tabs-menu">
+		        <li class="current"><a href="#twitter-tab"><img src='css/img/twitterLogo.png' style='height:50px;margin-left: 10px;' /></a></li>
+		        <li><a href="#instagram-tab"><img src='css/img/instagramLogo.png' style='height:50px;margin-left: 10px;'/></a></li>
+		        <li><a href="#youtube-tab"><img src='css/img/youtubeLogo.png' style='height:50px;margin-left: 10px;'/></a></li>
+		    </ul>
+			</div>
+			<div class="tab">
+
+		<!-- LOADING OVERLAY -->
+				<!-- <div class="loading-overlay">
+		    		<img class="loading-icon" src="css/img/loading_spinner.gif"/>
+		    		<span class="loading-text">Loading...</span>
+				</div> -->
+
+			<!-- BEGINNING OF TWITTER VIEW -->
+		        <div id="twitter-tab" class="tab-content">
+
+			<!--  TWITTER OPTION DIV-->
+		        	<!-- <div class="options">
+								<div> -->
+									<!-- RADIUS OF SEARCH -->
+									<!-- <strong>Radius: </strong>
+									<input type="number" name="twitter-radius" value="20" min="1" max="1000"> miles
+										<div class="error">*1 to 100 miles</div>
+								</div> -->
+
+								<!-- <strong>Tweets shown: </strong>
+								<input type="number" name="notweets" value="15" min="1" max="100">
+								<div class="error">*1 to 100 tweets</div>
+							</div> -->
+
+							<!--  TWITTER CHANGING OPTIONS-->
+							<!-- <button type="button" name="twitter_apply_changes">Apply changes</button>
+							<div class="markAsDefault">
+								<div class="checkboxArea">
+									<input type="checkbox" id="twitter" name="twitter" onclick="saveUserPreference('twitter');"/>
+									<label for="twitter"></label>
+								</div>
+								<span>Mark as default</span>
+							</div>
+					</div> -->
+					<!-- END OF TWITTER OPTIONS -->
+
+					<!-- START OF TWITTER RESULTS -->
+					<div class="container" ng-controller="TwitterController">
+							<h1>Twitter GeoBuzz</h1>
+							<div class="row">
+									<div class="col-xs-6">
+											<button ng-click="connectButton()" id="connectButton" type="button" class="btn btn-primary">Connect Twitter</button>
+											<button ng-click="refreshTimeline()" id="getTimelineButton" type="button" class="btn btn-info" style="display:none;">Geobuzz</button>
+											<button ng-click="signOut()" id="signOut" type="button" class="btn btn-link" style="display:none;">Sign Out</button>
+						</div>
+						<div class="col-xs-6">
+							<input type="text" ng-model="searchTerm" class="form-control" id="searchBox" placeholder="Enter search term here" ng-show="connectedTwitter"/>
+						</div>
+							</div>
+							<div class="row">
+									<div class="col-xs-12" id="results">
+											<div class="row" ng-repeat="t in tweets | filter:searchTerm">
+
+													<div class="col-xs-2 col-sm-1">
+															<!-- <img ng-src="{{t.user.profile_image_url}}" class="img-circle"> -->
+															<img ng-src="{{t.user.profile_image_url}}" class="img-circle">
+
+													</div>
+													<div class="col-xs-10 col-sm-11">
+															<!-- <small>{{t.user.name}}</small><br> <span ng-bind-html="t.text"></span> -->
+															<small>{{t.user.name}} | {{t.created_at}} | {{t.geo}}</small><br> <span ng-bind-html="t.text"></span>
+															<br><a href={{t.entities.url[0].expanded_url}}>LINK</a>
+
+
+													</div>
+
+											</div>
+
+											<div ng-show="rateLimitError">
+												Rate limit reached. You are making too many requests.
+											</div>
+							<div>
+								<br/>
+								<input type="button" class="btn btn-info" id="load-more" ng-click="refreshTimeline(tweets[tweets.length-1].id)" ng-show="connectedTwitter" value="Load More"/>
+							</div>
+									</div>
+							</div>
+					</div>
+				<!--END OF TWITTER VIEW  -->
+
+
+				<!-- BEGINNING OF INSTAGRAM VIEW -->
+		        <!-- <div id="instagram-tab" class="tab-content">
+		        		<div class="options"> -->
+									<!-- RADIUS OF SEARCH-->
+			        		<!-- <div>
+										<strong>Radius: </strong>
+										<input type="number" name="instagram-radius" value="1" min="1" max="5"> km
+											<div class="error">*1 to 5 km</div>
+									</div> -->
+									<!-- CHANGES TO INSTAGRAM INPUT -->
+									<!-- <button type="button" name="instagram_apply_changes">Apply changes</button>
+										<div class="markAsDefault">
+											<div class="checkboxArea">
+												<input type="checkbox" id="instagram" name="instagram" onclick="saveUserPreference('instagram');"/>
+												<label for="instagram"></label>
+											</div>
+											<span>Mark as default</span>
+										</div>
+							</div> -->
+
+							<!-- INSTAGRAM RESULTS -->
+					<!-- <div class="instagram-container"></div>
+				</div> -->
+				<!--END OF INSTAGRAM VIEW  -->
+
+				<!-- BEGINNING OF YOUTUBE VIEW -->
+				<!-- <div id="youtube-tab" class="tab-content"> -->
+							<!--  RADIUS OPION-->
+		        	<!-- <div class="options">
+			        	<div>
+									<strong>Radius: </strong>
+									<input type="number" name="youtube-radius" value="1" min="1" max="1000"> km
+								<div class="error">*1 to 1000 km</div>
+						</div>
+						NUMBER OF VIDEOS TO BE DISPLAYED -->
+						<!-- <div>
+							<strong>Videos shown: </strong>
+							<input type="number" name="maxVideos" value="5" min="1" max="50">
+								<div class="error">*1 to 50 videos</div>
+						</div> -->
+						<!-- CHANGES TO SEARCH OF YOUTUBE VIDEOS -->
+						<!-- <button type="button" name="youtube_apply_changes">Apply changes</button>
+							<div class="markAsDefault">
+								<div class="checkboxArea">
+									<input type="checkbox" id="youtube" name="youtube" onclick="saveUserPreference('youtube');"/>
+									<label for="youtube"></label>
+								</div>
+								<span>Mark as default</span>
+						</div>
+					</div> -->
+					<!-- YOUTUBE RESULTS -->
+					<!-- <div class="youtube-container"></div>
+				</div> -->
+				<!--END OF YOUTUBE SEARCH  -->
+
+			</div>
+		</div>
+
+
+		<footer>
+    Created by: Jessica Lynn, Wissam Charafeddine, and Kevin Baxter 2016
+
+    </footer>
+
+    <!-- Javascript Files linked including jquery , angular, google maps, etc...-->
+    <script type="text/javascript" src="lib/jquery-1.12.3.min.js"></script>
+		<script type="text/javascript"  src="lib/angular.min.js"></script>
+		<script type="text/javascript" src="lib/oauth.js"></script>
+		<script type="text/javascript" src="lib/angular-sanitize.js"></script>
+		<!-- <script type="text/javascript" src="ng-twitter.min.js"></script> -->
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script> -->
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgQ1yk9FCN6A-ol9OYr8adGSdcGcrCgto"></script>
+		<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=TvYz0Zr26DhMI7iwKWzrs08cmhI&libraries=places"></script> -->
+	  <script type="text/javascript" src="js/tabsapp.js"></script>
+		<script type="text/javascript" src="js/myModule.js"></script>
+    <script type="text/javascript" src="js/mapservice.js"></script>
+		<script type="text/javascript" src="js/options.js"></script>
+		<script type="text/javascript" src="js/twitter/services.js"></script>
+		<script type="text/javascript" src="js/twitter/controllers.js"></script>
+		<script type="text/javascript" src="js/mapController.js"></script>
+    <!-- <script type="text/javascript" src="js/instagram/instagramApp.js"></script>
+    <script type="text/javascript" src="js/youtube/youtubeApp.js"></script> -->
+
+  </body>
+  </html>
